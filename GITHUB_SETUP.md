@@ -18,13 +18,23 @@ It installs the app and sets up the secret for you. (You must be repo admin.)
 
 Or manually: install https://github.com/apps/claude on the repo.
 
-## 3. Add the API key secret
-The GitHub Action needs an `ANTHROPIC_API_KEY` secret (the Action does not use
-your $200 subscription — that's only for local runs).
+## 3. Add the auth secret
+The GitHub Action needs a credential. You can use your Claude Pro/Max
+subscription (no API credits required) — this is what we use:
 
-- Get a key from https://console.anthropic.com (top up ~$5, plenty for a demo).
+- Run `claude setup-token` locally. It generates a long-lived OAuth token
+  (requires a Pro/Max login).
 - Add it: repo → Settings → Secrets and variables → Actions → New secret →
-  name `ANTHROPIC_API_KEY`.
+  name `CLAUDE_CODE_OAUTH_TOKEN`, value = the token.
+
+The workflow (`.github/workflows/claude.yml`) reads this secret via
+`claude_code_oauth_token`. Usage counts against your subscription's rate
+limits (the same limits you hit locally), not pay-per-token.
+
+> Alternative — pay-as-you-go API key: get one from
+> https://console.anthropic.com, add it as an `ANTHROPIC_API_KEY` secret, and
+> swap the workflow input back to `anthropic_api_key`. Don't set both — a
+> static API key takes precedence over the OAuth token.
 
 ## 4. Try it
 Open a new GitHub Issue titled "Add task status chart", paste the body of
@@ -40,6 +50,8 @@ The Action runs the team on GitHub's servers and opens a Pull Request.
 
 ## Cost note for Dr. Amin
 - **Local demo:** $0 (your Claude subscription).
-- **GitHub Action demo:** a few cents per task (pay-as-you-go API). ~$5 lasts
-  for weeks of testing.
+- **GitHub Action demo:** $0 when using the `CLAUDE_CODE_OAUTH_TOKEN` from your
+  Pro/Max subscription — it draws on your subscription's rate limits, not
+  pay-per-token. (If you switch to the `ANTHROPIC_API_KEY` path instead, it's a
+  few cents per task; ~$5 lasts for weeks.)
 - **GitHub Actions minutes:** free tier (~2000 min/month) is plenty.

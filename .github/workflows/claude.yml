@@ -33,4 +33,4 @@ jobs:
           # The team is defined in .claude/agents/ and standards in CLAUDE.md.
           # Claude acts as the Leader and delegates to tech-lead, developer,
           # qa-reviewer and bug-fixer automatically.
-          claude_args: "--max-turns 25 --model claude-sonnet-4-6"
+          claude_args: "--max-turns 15 --model claude-sonnet-4-6"
