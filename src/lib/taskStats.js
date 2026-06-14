@@ -15,3 +15,11 @@ export function countByStatus(tasks) {
 
   return counts
 }
+
+export function remainingCount(tasks) {
+  if (!tasks || !Array.isArray(tasks)) {
+    return 0
+  }
+
+  return tasks.filter(task => task.status !== 'done').length
+}
