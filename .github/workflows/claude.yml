@@ -40,6 +40,6 @@ jobs:
           # writing files (Edit/Write), running npm (Bash), and spawning the
           # agent team (Task). Read/git/comment tools stay enabled too.
           claude_args: >-
-            --max-turns 40
+            --max-turns 150
             --allowedTools "Read,Glob,Grep,LS,Edit,Write,Bash,Task,mcp__github_comment__update_claude_comment"
             --append-system-prompt "For any implementation request, you MUST run the multi-agent team via the Task tool, never implement directly: 1) tech-lead plans the work, 2) developer implements, 3) qa-reviewer reviews against CLAUDE.md and runs npm test, 4) if QA requests changes, bug-fixer fixes them and qa-reviewer re-reviews, looping until APPROVED. Only then commit, push, and open the PR."
