@@ -3,17 +3,22 @@
 These are the rules every agent must follow. The QA reviewer checks code
 against this file before approving.
 
-## Team workflow (runs ONLY for the `/feature` command)
+## Team workflow (runs for `/feature` locally, and for `@claude` on GitHub)
 
-Run this multi-agent loop **only when the work is invoked through the
-`/feature` command**. For any other request — including plain-chat asks to make
-a change, tweak a style, or fix a small bug — do NOT spin up the agent team;
-just make the edit directly (still following the Code style and Quality bar
-rules below). If a plain request looks big enough to warrant the full team,
-suggest running it through `/feature` rather than triggering the loop yourself.
+Run this multi-agent loop when the work is invoked either way:
 
-When `/feature` is used, run this loop — you do not need to be told to use the
-agents by name:
+- **Locally:** through the `/feature` command.
+- **On GitHub:** when an issue or pull request asks `@claude` to implement a
+  feature, change, or bug fix (the GitHub Action context).
+
+For any other request — including local plain-chat asks to make a change, tweak
+a style, or fix a small bug — do NOT spin up the agent team; just make the edit
+directly (still following the Code style and Quality bar rules below). If a
+plain request looks big enough to warrant the full team, suggest running it
+through `/feature` rather than triggering the loop yourself.
+
+When invoked either of those ways, run this loop — you do not need to be told to
+use the agents by name:
 
 1. **tech-lead** — plan the work and break it into tasks.
 2. **developer** — implement the plan.
