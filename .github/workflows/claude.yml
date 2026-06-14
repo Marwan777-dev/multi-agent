@@ -30,10 +30,15 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          # Temporary: surface the real SDK error in the Actions log so we can
-          # diagnose why Claude exits on turn 1. Remove once it's working.
+          # Temporary: surface the real SDK error in the Actions log while we
+          # get the end-to-end flow working. Remove once it's stable.
           show_full_output: true
           # The team is defined in .claude/agents/ and standards in CLAUDE.md.
           # Claude acts as the Leader and delegates to tech-lead, developer,
           # qa-reviewer and bug-fixer automatically.
-          claude_args: "--max-turns 15"
+          # allowedTools grants what the default action set omits: editing/
+          # writing files (Edit/Write), running npm (Bash), and spawning the
+          # agent team (Task). Read/git/comment tools stay enabled too.
+          claude_args: >-
+            --max-turns 40
+            --allowedTools "Read,Glob,Grep,LS,Edit,Write,Bash,Task,mcp__github_comment__update_claude_comment"
