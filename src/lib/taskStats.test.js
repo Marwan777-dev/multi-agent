@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { countByStatus } from './taskStats.js'
+import { countByStatus, remainingCount } from './taskStats.js'
 
 describe('countByStatus', () => {
   it('returns all-zero counts for an empty array', () => {
@@ -37,5 +37,38 @@ describe('countByStatus', () => {
     ]
     const result = countByStatus(tasks)
     expect(result).toEqual({ todo: 0, 'in-progress': 0, done: 1 })
+  })
+})
+
+describe('remainingCount', () => {
+  it('returns 0 for an empty array', () => {
+    expect(remainingCount([])).toBe(0)
+  })
+
+  it('returns 0 when all tasks are done', () => {
+    const tasks = [
+      { id: 1, status: 'done' },
+      { id: 2, status: 'done' },
+    ]
+    expect(remainingCount(tasks)).toBe(0)
+  })
+
+  it('counts tasks that are not done', () => {
+    const tasks = [
+      { id: 1, status: 'done' },
+      { id: 2, status: 'in-progress' },
+      { id: 3, status: 'todo' },
+      { id: 4, status: 'done' },
+      { id: 5, status: 'todo' },
+    ]
+    expect(remainingCount(tasks)).toBe(3)
+  })
+
+  it('returns 0 for null input', () => {
+    expect(remainingCount(null)).toBe(0)
+  })
+
+  it('returns 0 for undefined input', () => {
+    expect(remainingCount(undefined)).toBe(0)
   })
 })

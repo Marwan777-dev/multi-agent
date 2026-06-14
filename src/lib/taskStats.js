@@ -1,5 +1,12 @@
 const KNOWN_STATUSES = ['todo', 'in-progress', 'done']
 
+export function remainingCount(tasks) {
+  if (!tasks || !Array.isArray(tasks)) {
+    return 0
+  }
+  return tasks.filter(task => task.status !== 'done').length
+}
+
 export function countByStatus(tasks) {
   const counts = { todo: 0, 'in-progress': 0, done: 0 }
 
