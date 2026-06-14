@@ -1,0 +1,17 @@
+# Netlify build config. Deploy Previews are enabled automatically once the repo
+# is linked at netlify.com — every PR gets its own preview URL, and the Netlify
+# bot comments that link on the PR for the reviewer.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  # Vite needs a modern Node; pin it so previews build the same as local.
+  NODE_VERSION = "20"
+
+# Single-page-app fallback so client routes resolve to index.html.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
