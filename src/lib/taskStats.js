@@ -15,3 +15,18 @@ export function countByStatus(tasks) {
 
   return counts
 }
+
+export function donePercentage(tasks) {
+  if (!tasks || !Array.isArray(tasks) || tasks.length === 0) {
+    return 0
+  }
+
+  const counts = countByStatus(tasks)
+  const total = counts.todo + counts['in-progress'] + counts.done
+
+  if (total === 0) {
+    return 0
+  }
+
+  return Math.round((counts.done / total) * 100)
+}
