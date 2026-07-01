@@ -37,6 +37,12 @@ jobs:
           # Temporary: surface the real SDK error in the Actions log while we
           # get the end-to-end flow working. Remove once it's stable.
           show_full_output: true
+          # For issue events there is no "@claude ..." trigger phrase to act on
+          # (the `agent` label is what fired the workflow), so hand the action an
+          # explicit prompt built from the issue. For comment events we leave it
+          # empty so the action falls back to reading the "@claude ..." comment.
+          prompt: >-
+            ${{ github.event_name == 'issues' && format('Implement GitHub issue #{0} ("{1}") in this repository. Read the full issue description for the requirements. Use the multi-agent team workflow defined in CLAUDE.md: tech-lead plans, developer implements, qa-reviewer reviews against CLAUDE.md and runs `npm test`, and bug-fixer fixes anything QA finds, looping until QA returns APPROVED. Then commit, push a branch, and open a pull request. Do not stop at posting a comment — implement the code and open the PR.', github.event.issue.number, github.event.issue.title) || '' }}
           # The team is defined in .claude/agents/ and standards in CLAUDE.md.
           # Claude acts as the Leader and delegates to tech-lead, developer,
           # qa-reviewer and bug-fixer automatically.
