@@ -1,6 +1,8 @@
 name: Claude Agent Team
 
-# Triggers: comment "@claude ..." on an issue or PR, or open an issue containing "@claude".
+# Triggers:
+#  - an issue is opened OR labeled with the `agent` label   -> runs automatically, no @claude needed
+#  - a comment on an issue/PR contains "@claude"            -> still supported for ad-hoc runs
 on:
   issue_comment:
     types: [created]
@@ -11,11 +13,13 @@ on:
 
 jobs:
   claude:
-    # Only run when @claude is mentioned
+    # Run when the issue carries the `agent` label (auto), or when @claude is
+    # mentioned in a comment (manual). The label path removes the need to type
+    # @claude on every issue: create 8 issues labeled `agent` and all 8 fire.
     if: |
       (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude')) ||
       (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude')) ||
-      (github.event_name == 'issues' && contains(github.event.issue.body, '@claude'))
+      (github.event_name == 'issues' && contains(github.event.issue.labels.*.name, 'agent'))
     runs-on: ubuntu-latest
     permissions:
       contents: write
